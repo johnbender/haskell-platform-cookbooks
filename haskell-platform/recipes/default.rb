@@ -30,6 +30,7 @@ get_and_build "ghc binary" do
   working_dir dir
   untar_dir ghc
   untar_flags 'jxvf'
+  not_if "ghci --version | grep #{node[:ghc_version]}"
 end
 
 get_and_build "haskell platform" do
@@ -37,6 +38,8 @@ get_and_build "haskell platform" do
   package_output platform_tar
   working_dir dir
   untar_dir platform
+  # install the haskell platform when we install the binary
+  not_if "ghci --version | grep #{node[:ghc_version]}"
 end
 
 log "Cleaning up..."
